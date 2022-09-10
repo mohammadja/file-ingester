@@ -1,4 +1,4 @@
-package ir.sahab.sahabino;
+package ir.sahab.sahabino.fileingester;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -45,9 +45,7 @@ public class WatchTower extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            if (killed)
-                break;
+        while (!killed) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {

@@ -1,27 +1,29 @@
 package ir.sahab.sahabino;
 
-import java.sql.Time;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Log {
-
-    final private String logPatternString = "(?<date>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d+) \\[(?<threadName>\\w+)]" +
+    final transient private String logPatternString = "(?<date>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d+) \\[(?<threadName>\\w+)]" +
             " (?<logType>[\\w.]+) (?<className>[\\w.]+) – (?<message>.*)$";
-    final private String datePattern = "yyyy-MM-dd HH:mm:ss,SSS";
-    private Date date;
+    final transient private String datePattern = "yyyy-MM-dd HH:mm:ss,SSS";
+    private  Date date;
     private LogType logType;
     private String message, threadName, className;
     private final ComponentLogInfo component;
-    public Log(ComponentLogInfo componentLogInfo, String sampleLog) throws Exception {
+    public Log(ComponentLogInfo componentLogInfo, String sampleLog) throws ParseException {
         component = componentLogInfo;
         Pattern regexPattern = Pattern.compile(logPatternString);
         fillFields(sampleLog, regexPattern);
     }
-    private void fillFields(String sampleLog, Pattern pattern) throws Exception {
+    private void fillFields(String sampleLog, Pattern pattern) throws ParseException {
         Matcher matcher = getExceptionFreeMatcher(sampleLog, pattern);
         this.setDate(matcher.group("date"));
         this.threadName = matcher.group("threadName");
@@ -30,16 +32,22 @@ public class Log {
         this.message = matcher.group("message");
     }
 
-    private static Matcher getExceptionFreeMatcher(String sampleLog, Pattern pattern) throws Exception {
+    private static Matcher getExceptionFreeMatcher(String sampleLog, Pattern pattern) throws ParseException {
         Matcher matcher = pattern.matcher(sampleLog);
-        if(!matcher.find())
-            throw new Exception("bad regex log format");
+        if(!matcher.find()) throw new ParseException("bad log format (ignore index)", 0);
         return matcher;
     }
 
     private void setDate(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
         this.date = formatter.parse(date);
+    }
+
+    static ArrayList<Log> listTranslator(ComponentLogInfo component, ArrayList<String> logs) throws ParseException {
+        ArrayList<Log> result = new ArrayList<>();
+        for(String log:logs)
+            result.add(new Log(component, log));
+        return result;
     }
 
     public Date getDate() {
