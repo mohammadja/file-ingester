@@ -1,4 +1,4 @@
-package ir.sahab.sahabino.rulesEvaluator.Rules;
+package ir.sahab.sahabino.rulesEvaluator;
 
 public class SQLRecord {
     private String ruleName;

@@ -1,4 +1,4 @@
-package ir.sahab.sahabino.fileingester;
+package ir.sahab.sahabino.fileIngester;
 
 import java.io.File;
 import java.nio.file.Files;

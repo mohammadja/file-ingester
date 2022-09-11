@@ -1,4 +1,4 @@
-package ir.sahab.sahabino.fileingester;
+package ir.sahab.sahabino.fileIngester;
 
 import ir.sahab.sahabino.utility.LogSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -7,8 +7,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class Config {
-    static final String KAFKA_TOPIC = "streams-plaintext-input";
-    static final String KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
+    public static final String KAFKA_TOPIC = "streams-plaintext-input";
+    public static final String KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
     static final Properties KAFKA_PROPERTIES;
     static {
         KAFKA_PROPERTIES = new Properties();

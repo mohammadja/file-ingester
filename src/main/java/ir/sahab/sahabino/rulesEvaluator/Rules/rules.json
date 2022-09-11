@@ -1,0 +1,8 @@
+[
+  {
+    "type":"ir.sahab.sahabino.rulesEvaluator.Rules.TopLimitRule",
+    "data": {
+      "limit": 10
+    }
+  }
+]

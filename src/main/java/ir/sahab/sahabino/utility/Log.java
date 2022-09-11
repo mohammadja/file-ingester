@@ -1,7 +1,7 @@
-package ir.sahab.sahabino;
+package ir.sahab.sahabino.utility;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +43,7 @@ public class Log {
         this.date = formatter.parse(date);
     }
 
-    static ArrayList<Log> listTranslator(ComponentLogInfo component, ArrayList<String> logs) throws ParseException {
+    static public ArrayList<Log> listTranslator(ComponentLogInfo component, ArrayList<String> logs) throws ParseException {
         ArrayList<Log> result = new ArrayList<>();
         for(String log:logs)
             result.add(new Log(component, log));
@@ -72,5 +72,10 @@ public class Log {
 
     public ComponentLogInfo getComponent() {
         return component;
+    }
+
+    public String getJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

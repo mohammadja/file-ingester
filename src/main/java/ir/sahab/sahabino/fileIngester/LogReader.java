@@ -1,4 +1,4 @@
-package ir.sahab.sahabino.fileingester;
+package ir.sahab.sahabino.fileIngester;
 
 import ir.sahab.sahabino.utility.ComponentLogInfo;
 import ir.sahab.sahabino.utility.Log;

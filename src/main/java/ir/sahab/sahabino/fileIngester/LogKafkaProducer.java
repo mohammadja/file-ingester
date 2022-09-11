@@ -1,4 +1,4 @@
-package ir.sahab.sahabino.fileingester;
+package ir.sahab.sahabino.fileIngester;
 
 import ir.sahab.sahabino.utility.Log;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -14,6 +14,7 @@ public class LogKafkaProducer{
     public LogKafkaProducer(Properties properties, String topic){
         producer = new KafkaProducer<>(properties);
         this.topic = topic;
+        Runtime.getRuntime().addShutdownHook(new Thread(producer::close));
     }
     public void send(Log log){
         String key = "file ingester data";

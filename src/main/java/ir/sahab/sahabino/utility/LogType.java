@@ -1,4 +1,4 @@
-package ir.sahab.sahabino;
+package ir.sahab.sahabino.utility;
 
 public enum LogType {
     INFO,
