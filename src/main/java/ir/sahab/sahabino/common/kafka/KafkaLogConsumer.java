@@ -47,8 +47,8 @@ public class KafkaLogConsumer extends Thread {
                 consumerRecords.forEach(this::doActionPerRecord);
                 consumer.commitAsync();
             }
-        } catch (WakeupException we){
-            if(!stopped)
+        } catch (WakeupException we) {
+            if (!stopped)
                 throw we;
         } finally {
             consumer.close();
