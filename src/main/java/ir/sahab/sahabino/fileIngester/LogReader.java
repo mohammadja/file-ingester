@@ -1,6 +1,6 @@
 package ir.sahab.sahabino.fileIngester;
 
-import ir.sahab.sahabino.common.config.Config;
+import ir.sahab.sahabino.common.config.KafkaConfig;
 import ir.sahab.sahabino.common.kafka.KafkaLogProducer;
 import ir.sahab.sahabino.common.log.ComponentLogInfo;
 import ir.sahab.sahabino.common.log.Log;
@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static ir.sahab.sahabino.common.config.Config.DELETE_AFTER_READ;
+import static ir.sahab.sahabino.common.config.RulesConfig.DELETE_AFTER_READ;
 
 public class LogReader extends WatchTower {
     static final private Logger LOGGER = LoggerFactory.getLogger(WatchTower.class);
@@ -22,7 +22,7 @@ public class LogReader extends WatchTower {
     private final KafkaLogProducer producer;
     public LogReader(String directoryAddress) throws Exception {
         super(directoryAddress);
-        this.producer = new KafkaLogProducer(Config.KAFKA_TOPIC);
+        this.producer = new KafkaLogProducer(KafkaConfig.KAFKA_TOPIC);
     }
 
     @Override

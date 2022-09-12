@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-import static ir.sahab.sahabino.common.config.Config.RULES;
-import static ir.sahab.sahabino.common.config.Config.RULE_FILE_ADDRESS;
+
+import static ir.sahab.sahabino.common.config.KafkaConfig.RULE_FILE_ADDRESS;
+import static ir.sahab.sahabino.common.config.RulesConfig.RULES;
 
 public class RulePool {
     static private final Logger LOGGER = LoggerFactory.getLogger(RulePool.class);

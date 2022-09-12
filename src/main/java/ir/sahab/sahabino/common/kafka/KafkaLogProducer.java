@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 
-import static ir.sahab.sahabino.common.config.Config.KAFKA_BOOTSTRAP_SERVERS;
-import static ir.sahab.sahabino.common.config.Config.KAFKA_CLIENT_ID;
+import static ir.sahab.sahabino.common.config.KafkaConfig.KAFKA_BOOTSTRAP_SERVERS;
+import static ir.sahab.sahabino.common.config.KafkaConfig.KAFKA_CLIENT_ID;
 
 public class KafkaLogProducer {
     static private final Logger LOGGER = LoggerFactory.getLogger(KafkaLogProducer.class);

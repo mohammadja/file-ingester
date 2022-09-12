@@ -18,10 +18,8 @@ public class RecentLogRule implements Rule {
     public SQLRecord update(Log log) {
         ArrayList<Log> nearDates = getNearDates(log);
         data.get(log.getComponent().getComponentName()).add(log);
-        LOGGER.info("entered" + nearDates);
         if(nearDates.size() < logNumberLimit)
             return null;
-        LOGGER.info("entered !!!!!!!!!!!!!!!");
         return new SQLRecord(
                 this.getClass().getName(),
                 log.getJson(),nearDates.get(nearDates.size() - 1).getJson()
@@ -32,7 +30,7 @@ public class RecentLogRule implements Rule {
     private ArrayList<Log> getNearDates(Log log) {
         ArrayList<Log> dates = new ArrayList<>(getDates(log.getComponent().getComponentName()));
         dates.removeIf(log1 -> log1.getDate().getTime() > log.getDate().getTime());
-        dates.removeIf(log1 -> log1.getDate().getTime() > log.getDate().getTime() - timeLimit);
+        dates.removeIf(log1 -> log1.getDate().getTime() < log.getDate().getTime() - timeLimit);
         dates.sort(Comparator.comparing(Log::getDate));
         return dates;
     }

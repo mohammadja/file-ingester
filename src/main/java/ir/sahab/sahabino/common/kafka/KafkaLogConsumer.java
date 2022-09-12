@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Properties;
 
-import static ir.sahab.sahabino.common.config.Config.*;
+import static ir.sahab.sahabino.common.config.KafkaConfig.*;
 
 public class KafkaLogConsumer extends Thread {
     static private final Logger LOGGER = LoggerFactory.getLogger(KafkaLogConsumer.class);
