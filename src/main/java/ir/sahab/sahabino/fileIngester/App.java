@@ -1,12 +1,10 @@
 package ir.sahab.sahabino.fileIngester;
 
-import ir.sahab.sahabino.rulesEvaluator.KafkaLogConsumer;
-import ir.sahab.sahabino.utility.Log;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import ir.sahab.sahabino.common.config.Config;
+
 import static java.lang.Thread.sleep;
 
-public class App 
-{
+public class App {
     public static void main(String[] args) throws InterruptedException {
         LogReader logReader;
         try {
@@ -15,8 +13,5 @@ public class App
             throw new RuntimeException(e);
         }
         logReader.start();
-        sleep(1000);
-        System.out.println("Done");
-        logReader.kill();
     }
 }

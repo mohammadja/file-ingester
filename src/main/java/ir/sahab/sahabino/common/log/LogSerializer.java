@@ -1,6 +1,5 @@
-package ir.sahab.sahabino.utility;
+package ir.sahab.sahabino.common.log;
 
-import com.google.gson.Gson;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 

@@ -1,7 +1,7 @@
 package ir.sahab.sahabino;
 
-import ir.sahab.sahabino.utility.Log;
-import ir.sahab.sahabino.utility.LogType;
+import ir.sahab.sahabino.common.log.Log;
+import ir.sahab.sahabino.common.log.LogType;
 import org.junit.jupiter.api.Test;
 
 import static junit.framework.Assert.*;

@@ -1,6 +1,7 @@
-package ir.sahab.sahabino.utility;
+package ir.sahab.sahabino.common.log;
 
 public enum LogType {
+    DEBUG,
     INFO,
     WARNING,
     ERROR

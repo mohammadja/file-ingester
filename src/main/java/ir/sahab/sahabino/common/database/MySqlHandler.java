@@ -1,6 +1,5 @@
-package ir.sahab.sahabino.rulesEvaluator;
+package ir.sahab.sahabino.common.database;
 
-import ir.sahab.sahabino.utility.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +14,7 @@ public class MySqlHandler {
     private final String password;
     private Connection connection;
     private Statement statement;
-    private String databaseName;
-    private String tableName;
+    private final String databaseName;
 
     public MySqlHandler(String databaseURL, String user, String password, String databaseName) {
         this.databaseURL = databaseURL;
@@ -30,13 +28,15 @@ public class MySqlHandler {
         createTables();
     }
 
-        public void insert(SQLRecord record) {
+    public void insert(SQLRecord record) {
         try {
             PreparedStatement prepareStatement = connection.prepareStatement(
                     SqlService.getInsertAllQueryStatement(),
                     Statement.RETURN_GENERATED_KEYS);
-            SqlService.setParameters(record ,prepareStatement);
+            SqlService.setParameters(record, prepareStatement);
             int rowAffected = prepareStatement.executeUpdate();
+            LOGGER.info("record inserted; " + rowAffected + "row(s) changed");
+
         } catch (SQLException e) {
             LOGGER.error("Error while inserting. " + e);
         }
@@ -54,7 +54,7 @@ public class MySqlHandler {
 
     private ArrayList<SQLRecord> makeLogList(ResultSet resultSet) throws SQLException {
         ArrayList<SQLRecord> records = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             records.add(SqlService.extractRecord(resultSet));
         }
         return records;
@@ -64,9 +64,10 @@ public class MySqlHandler {
     private void createTables() {
         try {
             statement.executeUpdate(SqlService.createTableStatement());
-            tableName = SQLRecord.class.getSimpleName();
+            String tableName = SQLRecord.class.getSimpleName();
+            LOGGER.info("table " + tableName + " created");
         } catch (SQLException e) {
-            LOGGER.error("Could not create table."+ e);
+            LOGGER.error("Could not create table." + e);
             throw new RuntimeException(e);
         }
     }
@@ -75,7 +76,7 @@ public class MySqlHandler {
         try {
             statement = connection.createStatement();
         } catch (SQLException e) {
-            LOGGER.error("Could not get the statement."+ e);
+            LOGGER.error("Could not get the statement." + e);
             throw new RuntimeException(e);
         }
     }
@@ -84,7 +85,7 @@ public class MySqlHandler {
         try {
             statement.executeUpdate("USE " + databaseName);
         } catch (SQLException e) {
-            LOGGER.error("Could not use database."+ e);
+            LOGGER.error("Could not use database." + e);
             throw new RuntimeException(e);
         }
     }
@@ -93,7 +94,7 @@ public class MySqlHandler {
         try {
             statement.executeUpdate("CREATE DATABASE IF NOT EXISTS " + databaseName);
         } catch (SQLException e) {
-            LOGGER.error("Could not make database."+ e);
+            LOGGER.error("Could not make database." + e);
             throw new RuntimeException(e);
         }
     }
@@ -101,8 +102,9 @@ public class MySqlHandler {
     private void connectToMySQL() {
         try {
             connection = DriverManager.getConnection(databaseURL, user, password);
+            LOGGER.info("Connected to database");
         } catch (SQLException e) {
-            LOGGER.error("Could not connect to mysql"+ e);
+            LOGGER.error("Could not connect to mysql" + e);
             throw new RuntimeException(e);
         }
     }

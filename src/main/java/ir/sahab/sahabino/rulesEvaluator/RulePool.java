@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static ir.sahab.sahabino.common.config.Config.RULES;
+import static ir.sahab.sahabino.common.config.Config.RULE_FILE_ADDRESS;
+
 public class RulePool {
     static RulePool singletonObject = null;
     private final ArrayList<Rule> rules = new ArrayList<>();
@@ -26,7 +29,7 @@ public class RulePool {
         rules.add(newRule);
     }
     private static Class findRuleClass(String type) {
-        for(Class ruleType:Config.RULES){
+        for(Class ruleType:RULES){
             if(type.equals(ruleType.getName()))
                 return ruleType;
         }
@@ -35,7 +38,7 @@ public class RulePool {
     private RulePool(){
         JsonParser jsonParser = new JsonParser();
         try {
-            JsonElement rulesJsonElement = jsonParser.parse(new FileReader(Config.RULE_FILE_ADDRESS));
+            JsonElement rulesJsonElement = jsonParser.parse(new FileReader(RULE_FILE_ADDRESS));
             JsonArray rulesJsonArray = rulesJsonElement.getAsJsonArray();
             addRules(rulesJsonArray);
         } catch (IOException e) {

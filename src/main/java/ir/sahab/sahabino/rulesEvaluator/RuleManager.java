@@ -1,16 +1,19 @@
 package ir.sahab.sahabino.rulesEvaluator;
 
-import ir.sahab.sahabino.utility.Log;
+import ir.sahab.sahabino.common.database.MySqlHandler;
+import ir.sahab.sahabino.common.database.SQLRecord;
+import ir.sahab.sahabino.common.kafka.KafkaLogConsumer;
+import ir.sahab.sahabino.common.log.Log;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.util.Properties;
 
-public class RuleManager extends KafkaLogConsumer{
+public class RuleManager extends KafkaLogConsumer {
     private final RulePool rulePool = RulePool.getInstance();
     private final MySqlHandler sqlHandler;
 
-    public RuleManager(Properties properties, String topic, MySqlHandler sqlHandler) {
-        super(properties, topic);
+    public RuleManager(String topic, MySqlHandler sqlHandler) {
+        super(topic);
         this.sqlHandler = sqlHandler;
     }
 

@@ -1,7 +1,7 @@
 package ir.sahab.sahabino.rulesEvaluator.Rules;
 import ir.sahab.sahabino.rulesEvaluator.Rule;
-import ir.sahab.sahabino.rulesEvaluator.SQLRecord;
-import ir.sahab.sahabino.utility.Log;
+import ir.sahab.sahabino.common.database.SQLRecord;
+import ir.sahab.sahabino.common.log.Log;
 
 public class TopLimitRule implements Rule {
     private int limit;

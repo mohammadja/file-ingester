@@ -1,7 +1,12 @@
 package ir.sahab.sahabino.fileIngester;
 
-import ir.sahab.sahabino.utility.ComponentLogInfo;
-import ir.sahab.sahabino.utility.Log;
+import ir.sahab.sahabino.common.config.Config;
+import ir.sahab.sahabino.common.kafka.KafkaLogProducer;
+import ir.sahab.sahabino.common.log.ComponentLogInfo;
+import ir.sahab.sahabino.common.log.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LogReader extends WatchTower {
-    String address;
-    private final LogKafkaProducer producer;
-    public LogReader(String address) throws Exception {
-        super(address);
-        this.address = address;
-        this.producer = new LogKafkaProducer(Config.KAFKA_PROPERTIES, Config.KAFKA_TOPIC);
+    static final private Logger LOGGER = LoggerFactory.getLogger(WatchTower.class);
+
+    private final KafkaLogProducer producer;
+    public LogReader(String directoryAddress) throws Exception {
+        super(directoryAddress);
+        this.producer = new KafkaLogProducer(Config.KAFKA_TOPIC);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class LogReader extends WatchTower {
 
     }
     ArrayList<String> fileHandler(String fileName){
-        File file  = new File(address + '/' + fileName);
+        File file  = new File(directoryAddress + '/' + fileName);
         try {
             Scanner scanner = new Scanner(file);
             ArrayList<String> logsStr = readLineByLine(scanner);
