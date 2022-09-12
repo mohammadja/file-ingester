@@ -3,6 +3,7 @@ package ir.sahab.sahabino.common.kafka;
 import ir.sahab.sahabino.common.log.Log;
 import ir.sahab.sahabino.common.log.LogDeserializer;
 import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ public class KafkaLogConsumer extends Thread {
         Properties properties = makeKafkaProperties();
         this.consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(topic));
-        Runtime.getRuntime().addShutdownHook(new Thread(consumer::close));
     }
 
     private Properties makeKafkaProperties() {
@@ -39,13 +39,20 @@ public class KafkaLogConsumer extends Thread {
     public void run() {
         LOGGER.info("Consumer started");
         super.run();
-        while (!stopped) {
-            final ConsumerRecords<String, Log> consumerRecords =
-                    consumer.poll(1000);
-            consumerRecords.forEach(this::doActionPerRecord);
-            consumer.commitAsync();
+        try {
+
+            while (!stopped) {
+                final ConsumerRecords<String, Log> consumerRecords =
+                        consumer.poll(1000);
+                consumerRecords.forEach(this::doActionPerRecord);
+                consumer.commitAsync();
+            }
+        } catch (WakeupException we){
+            if(!stopped)
+                throw we;
+        } finally {
+            consumer.close();
         }
-        consumer.close();
     }
 
     public void doActionPerRecord(ConsumerRecord<String, Log> record) {
