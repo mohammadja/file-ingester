@@ -4,5 +4,12 @@
     "data": {
       "limit": 4
     }
+  },
+  {
+    "type":"ir.sahab.sahabino.rulesEvaluator.Rules.RecentLogRule",
+    "data": {
+      "timeLimit": 1000,
+      "logNumberLimit": 3
+    }
   }
 ]

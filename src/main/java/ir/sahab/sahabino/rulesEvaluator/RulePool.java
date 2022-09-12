@@ -5,15 +5,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 import static ir.sahab.sahabino.common.config.Config.RULES;
 import static ir.sahab.sahabino.common.config.Config.RULE_FILE_ADDRESS;
 
 public class RulePool {
+    static private final Logger LOGGER = LoggerFactory.getLogger(RulePool.class);
     static RulePool singletonObject = null;
     private final ArrayList<Rule> rules = new ArrayList<>();
     private void addRules(JsonArray rulesJson) {
@@ -33,6 +37,7 @@ public class RulePool {
             if(type.equals(ruleType.getName()))
                 return ruleType;
         }
+        LOGGER.error("Rule Class Not found (please add  it ro config class)" + type);
         throw new RuntimeException("Rule Class Not found");
     }
     private RulePool(){
@@ -42,7 +47,7 @@ public class RulePool {
             JsonArray rulesJsonArray = rulesJsonElement.getAsJsonArray();
             addRules(rulesJsonArray);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("cannot load Rules");
         }
     }
     static public RulePool getInstance(){

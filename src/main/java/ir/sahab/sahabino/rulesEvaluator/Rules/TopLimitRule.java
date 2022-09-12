@@ -16,8 +16,4 @@ public class TopLimitRule implements Rule {
     public void setLimit(int limit) {
         this.limit = limit;
     }
-
-    public static void main(String[] args) {
-        System.out.println(TopLimitRule.class.getName());
-    }
 }

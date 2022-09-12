@@ -1,6 +1,6 @@
 package ir.sahab.sahabino.common.config;
 
-import ir.sahab.sahabino.rulesEvaluator.Rules.TopLimitRule;
+import ir.sahab.sahabino.rulesEvaluator.Rules.*;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ public class Config {
     public static final ArrayList<Class> RULES = new ArrayList<>();
     static {
         RULES.add(TopLimitRule.class);
+        RULES.add(RecentLogRule.class);
     }
 
     public static final boolean DELETE_AFTER_READ = false;
