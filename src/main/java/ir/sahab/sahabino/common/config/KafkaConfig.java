@@ -5,7 +5,7 @@ import ir.sahab.sahabino.rulesEvaluator.Rules.*;
 import java.util.ArrayList;
 
 public class Config {
-    public static final String KAFKA_TOPIC = "streams-plaintext-input";
+    public static final String KAFKA_TOPIC = "logQueue";
     public static final String KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
     public static final String KAFKA_CLIENT_ID = "FileBeatLogQueue";
     public static final String WATCHING_FOLDER_ADDRESS = "/home/mojak/Desktop/job/sahab/log-test-folder";
