@@ -32,7 +32,10 @@ public class LogReader extends WatchTower {
     }
 
     void deleteFile(File file){
-        // TODO: 9/9/22
+        if(file.delete())
+            LOGGER.info("file deleted");
+        else
+            LOGGER.info("cant delete file" + file.getName());
     }
 
 
