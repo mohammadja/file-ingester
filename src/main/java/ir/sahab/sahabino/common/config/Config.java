@@ -15,4 +15,6 @@ public class Config {
     static {
         RULES.add(TopLimitRule.class);
     }
+
+    public static final boolean DELETE_AFTER_READ = false;
 }

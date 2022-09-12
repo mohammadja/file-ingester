@@ -14,6 +14,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static ir.sahab.sahabino.common.config.Config.DELETE_AFTER_READ;
+
 public class LogReader extends WatchTower {
     static final private Logger LOGGER = LoggerFactory.getLogger(WatchTower.class);
 
@@ -35,26 +37,29 @@ public class LogReader extends WatchTower {
 
 
     void processFile(String fileName){
-        ComponentLogInfo component = null;
+        LOGGER.info("Processing file (" + fileName + ")");
         try {
-            component = new ComponentLogInfo(fileName);
-            ArrayList<String> logs = fileHandler(fileName);
+            ComponentLogInfo component = new ComponentLogInfo(fileName);
+            ArrayList<String> logs = readAndExtractLogStrings(fileName);
             producer.sendList(Log.listTranslator(component, logs));
         } catch (ParseException e) {
-            System.out.println("bad file name or log format");
-            throw new RuntimeException(e);
+            LOGGER.error("bad file name " + fileName + '\t' + e);
         }
-
     }
-    ArrayList<String> fileHandler(String fileName){
+    private ArrayList<String> readAndExtractLogStrings(String fileName){
         File file  = new File(directoryAddress + '/' + fileName);
         try {
             Scanner scanner = new Scanner(file);
             ArrayList<String> logsStr = readLineByLine(scanner);
-            deleteFile(file);
+            try{
+                if(DELETE_AFTER_READ)
+                    deleteFile(file);
+            } catch (Exception e){
+                LOGGER.error("cannot delete file " + fileName + '\t' + e);
+            }
             return logsStr;
         } catch (FileNotFoundException e) {
-            System.out.println("file not found" + fileName);
+            LOGGER.error("file not found" + fileName);
         }
         return new ArrayList<>();
     }

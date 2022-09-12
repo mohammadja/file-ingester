@@ -2,6 +2,8 @@ package ir.sahab.sahabino.common.log;
 
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import static ir.sahab.sahabino.common.log.Parser.getDateFromString;
 import static ir.sahab.sahabino.common.log.Parser.getMatcher;
 
 public class Log {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
     private final Date date;
     private final LogType logType;
     private final String message, threadName, className;
@@ -32,10 +34,15 @@ public class Log {
     }
 
 
-    static public ArrayList<Log> listTranslator(ComponentLogInfo component, ArrayList<String> logs) throws ParseException {
+    static public ArrayList<Log> listTranslator(ComponentLogInfo component, ArrayList<String> logs) {
         ArrayList<Log> result = new ArrayList<>();
-        for (String log : logs)
-            result.add(new Log(component, log));
+        for (String log : logs) {
+            try {
+                result.add(new Log(component, log));
+            } catch (ParseException e) {
+                LOGGER.error("cannot read this log:" + log);
+            }
+        }
         return result;
     }
 
