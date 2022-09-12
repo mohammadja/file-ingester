@@ -1,23 +1,15 @@
 package ir.sahab.sahabino.rulesEvaluator;
 
-import ir.sahab.sahabino.common.kafka.KafkaLogConsumer;
-import ir.sahab.sahabino.common.log.Log;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import ir.sahab.sahabino.common.database.MySqlHandler;
+
 
 import static ir.sahab.sahabino.common.config.Config.KAFKA_TOPIC;
 
 public class App {
+    static MySqlHandler sql = new MySqlHandler("jdbc:mysql://localhost/","root","root","Notification");
     public static void main(String[] args) {
-        KafkaLogConsumer consumer = new KafkaLogConsumer(KAFKA_TOPIC) {
-            int a = 0;
-
-            @Override
-            public void doActionPerRecord(ConsumerRecord<String, Log> record) {
-                super.doActionPerRecord(record);
-                System.out.println(a++);
-            }
-        };
-        consumer.start();
+        RuleManager ruleManager = new RuleManager(KAFKA_TOPIC, sql);
+        ruleManager.start();
     }
 
 }
